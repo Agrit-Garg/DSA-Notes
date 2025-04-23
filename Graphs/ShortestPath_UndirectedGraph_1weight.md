@@ -19,6 +19,8 @@ If a vertex is **unreachable**, return `-1` for that vertex.
 adj = [[1, 3], [0, 2], [1, 6], [0, 4], [3, 5], [4, 6], [2, 5, 7, 8], [6, 8], [7, 6]]
 src = 0
 ```
+**Ouput:**
+
 ```cpp
 [0, 1, 2, 1, 2, 3, 3, 4, 4]
 ```
