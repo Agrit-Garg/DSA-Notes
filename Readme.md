@@ -29,7 +29,7 @@ Each problem is organized to help you **understand the concept** and **revise ef
 ## 🚀 Contributions
 
 This is my personal learning and revision project, but feel free to suggest improvements or raise issues!  
-If you'd like to contribute, you're welcome to open a Pull Request (PR).
+If you'd like to contribute, you're welcome to open a PR.
 
 ---
 
