@@ -9,9 +9,8 @@ If a vertex is **unreachable**, return `-1` for that vertex.
 
 ---
 
-## 📥 Examples
 
-### ✅ Example 1
+### ✅ Example
 
 **Input:**
 
