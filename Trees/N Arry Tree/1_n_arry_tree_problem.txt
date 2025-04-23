@@ -1,0 +1,85 @@
+Problem Understanding
+
+You're given a tree structure (specifically a complete m-ary tree) representing a world map hierarchy :
+
+For example :
+        World
+       /      \
+    Asia       Africa
+    /   \      /     \
+   China India SouthAfrica Egypt
+
+On this tree, three operations are defined :
+
+1. Lock(NodeName, UserID)
+Locks the node only if:
+• It is not already locked.
+• No ancestor or descendant of this node is locked.
+
+2. Unlock(NodeName, UserID)
+Unlocks the node only if:
+• The node is currently locked by the same user.
+
+3. UpgradeLock(NodeName, UserID)
+This is a special operation:
+• You want to lock the given node by replacing all its locked descendants (if any).
+• Conditions for success:
+◦ The node itself is not locked.
+◦ At least one descendant is locked.
+◦ All locked descendants are by the same user (UID).
+◦ After the upgrade, the node gets locked, and all descendant locks are removed.
+
+
+
+Input:
+1. The first line contains the number of Nodes in the tree (N).
+2. The second line contains number of children per node (value m in m-ary
+Tree).
+3. The third line contains number of queries (Q).
+4. Next N lines contains the NodeName (string) in the m-Ary
+5. Next fires contains queries which are in Format OperationType NodeName
+Userld
+6. OperationType->
+• 1 for Lock
+• 2 for unlock
+• 3 for upgradeLock
+7. NodeName
+8. Name of any node (unique) in m-Ary Tree.
+9. Userld Integer value representing a unique user.
+
+Example:
+
+Sample input
+7
+2
+5
+World
+Asia
+Africa
+China
+India
+SouthAfrica
+Egypt
+1 China 9
+1 India 9
+3 Asia 9
+2 India 9
+2 Asia 9
+
+Sample Output:
+true
+true
+true
+false 
+true
+
+
+Explanation
+Query 1: 1 China 9 = This operation is success as initially China is
+unlocked
+Query 2: 1 India 9 => This strould be success as none of ancestors and descendants of India are locked
+Query 3: 3 Asia 9 = This also should be success as upgrade operation is
+done by same user who has locked descendants
+Query 4: 2 India 9 => This should fail as the India is now not locked
+Query 5: 2 Asia 9 = This should be success as Asia was earlier (refer
+Query 3) locked by user
