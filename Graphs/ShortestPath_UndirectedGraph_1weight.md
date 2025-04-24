@@ -87,7 +87,7 @@ vector<int> shortestPath(vector<vector<int>>& adjacencyList, int sourceVertex) {
 ## ⏱️ Time Complexity
 
 - **BFS Traversal**: Each node is visited once, and each edge is explored once.  
-- **Overall**: \( \mathcal{O}(V + E) \), where:
+- **Overall**: \( O(V + E) \), where:
   - \( V \) is the number of vertices (nodes)
   - \( E \) is the number of edges in the graph
 
@@ -95,7 +95,7 @@ vector<int> shortestPath(vector<vector<int>>& adjacencyList, int sourceVertex) {
 
 ## 💾 Space Complexity
 
-- **Distance Array**: Stores the shortest distance for each node → \( \mathcal{O}(V) \)
-- **Queue**: Used for BFS traversal → \( \mathcal{O}(V) \) in the worst case
+- **Distance Array**: Stores the shortest distance for each node → \( O(V) \)
+- **Queue**: Used for BFS traversal → \( O(V) \) in the worst case
 
-- **Overall Space Complexity**: \( \mathcal{O}(V + E) \)
+- **Overall Space Complexity**: ( O(V + E) )
