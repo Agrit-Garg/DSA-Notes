@@ -19,6 +19,12 @@ struct Node {
 unordered_map<string, Node*> nodeMap;
 mutex mapMutex; // For thread-safe access to nodeMap
 
+Node* getNode(const string& name) {
+    lock_guard<mutex> mapGuard(mapMutex);
+    if (nodeMap.find(name) == nodeMap.end()) return nullptr;
+    return nodeMap[name];
+}
+
 bool canLockOrUnlock(Node* node) {
     Node* curr = node->parent;
     while (curr) {
@@ -51,11 +57,8 @@ bool hasLockedDescendants(Node* node, int uid, vector<Node*>& toUnlock) {
 }
 
 bool lock(const string& name, int uid) {
-    Node* node;
-    {
-        lock_guard<mutex> mapGuard(mapMutex);
-        node = nodeMap[name];
-    }
+    Node* node = getNode(name);
+    if (!node) return false;
 
     lock_guard<mutex> guard(node->nodeMutex);
     if (node->isLocked || node->lockedDescendants > 0 || !canLockOrUnlock(node))
@@ -68,11 +71,8 @@ bool lock(const string& name, int uid) {
 }
 
 bool unlock(const string& name, int uid) {
-    Node* node;
-    {
-        lock_guard<mutex> mapGuard(mapMutex);
-        node = nodeMap[name];
-    }
+    Node* node = getNode(name);
+    if (!node) return false;
 
     lock_guard<mutex> guard(node->nodeMutex);
     if (!node->isLocked || node->lockedBy != uid)
@@ -85,11 +85,8 @@ bool unlock(const string& name, int uid) {
 }
 
 bool upgrade(const string& name, int uid) {
-    Node* node;
-    {
-        lock_guard<mutex> mapGuard(mapMutex);
-        node = nodeMap[name];
-    }
+    Node* node = getNode(name);
+    if (!node) return false;
 
     lock_guard<mutex> guard(node->nodeMutex);
     if (node->isLocked || node->lockedDescendants == 0) return false;
@@ -113,11 +110,18 @@ bool upgrade(const string& name, int uid) {
 int main() {
     int N, m, Q;
     cin >> N >> m >> Q;
+
+    if (m <= 0) {
+        cerr << "Invalid value of m" << endl;
+        return 1;
+    }
+
     vector<string> names(N);
 
     for (int i = 0; i < N; ++i) {
         cin >> names[i];
-        nodeMap[names[i]] = new Node{names[i]};
+        nodeMap[names[i]] = new Node();
+        nodeMap[names[i]]->name = names[i];
     }
 
     for (int i = 1; i < N; ++i) {
@@ -137,6 +141,11 @@ int main() {
         else result = upgrade(name, uid);
 
         cout << (result ? "true" : "false") << endl;
+    }
+
+    // Cleanup dynamically allocated memory
+    for (auto& pair : nodeMap) {
+        delete pair.second;
     }
 
     return 0;
